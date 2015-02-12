@@ -12,7 +12,7 @@ RebarScriptRepoUrl
       end
   end,
 
-RebarScriptRepo = {git, ".*", RebarScriptRepoUrl},
+RebarScriptRepo = {'rebar-script', "", {git, RebarScriptRepoUrl, "HEAD"}, [raw]},
 
 PrintMsg
 = fun(Msg, Args) ->
@@ -50,7 +50,7 @@ DebugMsg("getting script name and fetch possibility", []),
       {RS, CF}
       = case DepsDir of
           [$/, _] -> {DepsDir ++ "/rebar.script", false};
-          _ -> {CurDir ++ "/" ++ DepsDir ++ "/rebar.script", true}
+          _ -> {CurDir ++ "/" ++ DepsDir ++ "/rebar-script/rebar.script", true}
         end,
       os:putenv("REBAR_SCRIPT", RS),
       {RS, CF}
@@ -90,9 +90,9 @@ NewConfig
             "you should run `rebar get-deps` again", []),
           case lists:keyfind(deps, 1, CONFIG) of
             {deps, _} ->
-              lists:keyreplace(deps, 1, CONFIG, {deps, RebarScriptRepo});
+              lists:keyreplace(deps, 1, CONFIG, {deps, [RebarScriptRepo]});
             _ ->
-              [{deps, RebarScriptRepo} | CONFIG]
+              [{deps, [RebarScriptRepo]} | CONFIG]
           end
       end
   end,
