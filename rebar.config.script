@@ -70,6 +70,7 @@ NewConfig
           erl_eval:new_bindings(),
           [{'CONFIG', CONFIG}, {'SCRIPT', SCRIPT}]
          ),
+      DebugMsg("updating config using script file ~p", [Script]),
       {ok, NC} = file:script(Script, Bindings),
       NC;
     false ->
